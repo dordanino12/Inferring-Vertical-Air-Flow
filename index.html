@@ -2,17 +2,84 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inferring Vertical Air Flow by Spaceborne Imaging</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 50px 20px;
+            color: #333;
+            line-height: 1.6;
+        }
+        h1 {
+            text-align: center;
+            font-size: 2.2rem;
+            margin-bottom: 15px;
+        }
+        .authors {
+            text-align: center;
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            color: #555;
+        }
+        .button-container {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .btn {
+            background-color: #24292e;
+            color: white;
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            display: inline-block;
+            transition: background-color 0.2s;
+        }
+        .btn:hover {
+            background-color: #0366d6;
+        }
+        .abstract-section {
+            background-color: #f8f9fa;
+            padding: 25px 30px;
+            border-radius: 10px;
+            border: 1px solid #e9ecef;
+        }
+        .abstract-section h3 {
+            margin-top: 0;
+            text-align: center;
+            font-size: 1.5rem;
+        }
+        .abstract-section p {
+            text-align: justify;
+            margin-bottom: 0;
+        }
+    </style>
 </head>
-<body style="font-family: Arial, sans-serif; text-align: center; margin-top: 50px;">
+<body>
 
     <h1>Inferring Vertical Air Flow by Spaceborne Imaging</h1>
     
-    <p>
-        <a href="https://github.com/dordanino12/Inferring-Vertical-Air-Flow" target="_blank" style="font-size: 1.2rem; color: #007bff; text-decoration: none;">
+    <div class="authors">
+        Dor Danino, Udi Gal, Vadim Holodovsky, Daniel Rosenfeld,<br>
+        Barry Lynn, Céline Cornet, Yoav Schechner
+    </div>
+    
+    <div class="button-container">
+        <a href="https://github.com/dordanino12/Inferring-Vertical-Air-Flow" class="btn" target="_blank">
             View Code on GitHub
         </a>
-    </p>
+    </div>
+
+    <div class="abstract-section">
+        <h3>Abstract</h3>
+        <p>
+            Understanding vertical airflow in cloud fields is critical for climate modeling. Anticipating upcoming multi-satellite missions, we propose a framework to infer this airflow both at the visible cloud envelope and targeted internal layers, using sequential passive 2D spaceborne stereo imagery. The estimation is challenging due to high-order scattering, opacity, and violations of brightness constancy. Inference is based on a spatiotemporal deep neural network, trained via a physics-based data generation pipeline. To the best of our knowledge, this is the first work to investigate whether spaceborne image sequences contain sufficient indirect information to infer this flow. We show that our learned mapping yields statistically consistent velocity estimates, laying the foundation for processing and exploiting observational data from future satellite space missions.
+        </p>
+    </div>
 
 </body>
 </html>
