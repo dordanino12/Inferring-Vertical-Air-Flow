@@ -46,7 +46,7 @@
         .authors a {
             color: #111;
             text-decoration: none;
-            border-bottom: 1px solid #ccc; /* Matches the thin underline from the example */
+            border-bottom: 1px solid #ccc;
             margin: 0 4px;
             padding-bottom: 1px;
             transition: border-bottom-color 0.2s;
@@ -69,7 +69,6 @@
             font-size: 12px;
             margin-right: 3px;
         }
-        /* Pill-shaped buttons styling to match the example */
         .button-row {
             display: flex;
             justify-content: center;
@@ -81,7 +80,7 @@
             background-color: #343a40;
             color: #fff;
             padding: 10px 22px;
-            border-radius: 25px; /* Pill shape */
+            border-radius: 25px;
             text-decoration: none;
             font-size: 16px;
             font-weight: 500;
@@ -93,6 +92,14 @@
         .btn:hover {
             background-color: #1a1e21;
         }
+        /* Style for disabled buttons */
+        .btn.disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        .btn.disabled:hover {
+            background-color: #343a40;
+        }
         .teaser-container {
             width: 100%;
             margin-bottom: 50px;
@@ -102,7 +109,6 @@
             max-width: 800px;
             height: auto;
             border-radius: 8px;
-            /* Optional: Add shadow if you want it to pop out */
             box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
         }
         .abstract-section {
@@ -127,11 +133,9 @@
 
 <div class="container">
     
-    <!-- Title and Conference -->
     <h1 class="title">Inferring Vertical Air Flow by Spaceborne Imaging</h1>
     <h2 class="conference">WACV 2027</h2>
 
-    <!-- Authors List -->
     <div class="authors">
         <a href="#">Dor Danino</a><sup>1</sup>
         <a href="#">Udi Gal</a><sup>1</sup>
@@ -142,37 +146,31 @@
         <a href="#">Yoav Schechner</a><sup>1</sup>
     </div>
 
-    <!-- Affiliations -->
     <div class="affiliations">
         <sup>1</sup>Technion--Israel Institute of Technology, Israel<br>
         <sup>2</sup>The Hebrew University of Jerusalem, Israel<br>
         <sup>3</sup>Univ. Lille, CNRS, France
     </div>
 
-    <!-- Buttons -->
     <div class="button-row">
-        <!-- Paper Button -->
-        <a href="#" class="btn">
-            <i class="fas fa-file-pdf"></i> Paper
+        <!-- Paper Button (Disabled) -->
+        <a href="#" class="btn disabled" onclick="return false;">
+            <i class="fas fa-file-pdf"></i> Paper (Soon)
         </a>
-        <!-- Code Button -->
+        <!-- Code Button (Active link to GitHub) -->
         <a href="https://github.com/dordanino12/Inferring-Vertical-Air-Flow" class="btn" target="_blank">
-            <i class="fab fa-github"></i> Code
+            <i class="fab fa-github"></i> Code (Soon)
         </a>
-        <!-- Data/Supplementary Button -->
-        <a href="#" class="btn">
-            <i class="fas fa-database"></i> Data
+        <!-- Data Button (Disabled) -->
+        <a href="#" class="btn disabled" onclick="return false;">
+            <i class="fas fa-database"></i> Data (Soon)
         </a>
     </div>
 
-    <!-- Teaser Image -->
     <div class="teaser-container">
-        <!-- Replace 'teaser.png' with the path to your actual image in the repository -->
-        <!-- If you don't have an image yet, you can remove this img tag -->
         <img src="teaser.png" alt="Teaser Image" onerror="this.style.display='none'">
     </div>
 
-    <!-- Abstract -->
     <div class="abstract-section">
         <h2>Abstract</h2>
         <p>
