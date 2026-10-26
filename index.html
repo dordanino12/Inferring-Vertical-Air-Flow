@@ -4,82 +4,183 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inferring Vertical Air Flow by Spaceborne Imaging</title>
+    
+    <!-- Google Fonts for clean typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- FontAwesome for icons inside buttons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            max-width: 800px;
-            margin: 0 auto;
+            font-family: 'Open Sans', sans-serif;
+            color: #111;
+            background-color: #fff;
+            margin: 0;
             padding: 50px 20px;
-            color: #333;
-            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
-        h1 {
+        .container {
+            max-width: 900px;
+            width: 100%;
             text-align: center;
-            font-size: 2.2rem;
+        }
+        h1.title {
+            font-size: 34px;
+            font-weight: 500;
             margin-bottom: 15px;
+            letter-spacing: -0.5px;
+        }
+        h2.conference {
+            font-size: 24px;
+            font-weight: 400;
+            margin-top: 0;
+            margin-bottom: 30px;
         }
         .authors {
-            text-align: center;
-            font-size: 1.2rem;
-            margin-bottom: 30px;
-            color: #555;
+            font-size: 18px;
+            margin-bottom: 25px;
+            line-height: 1.8;
         }
-        .button-container {
-            text-align: center;
+        .authors a {
+            color: #111;
+            text-decoration: none;
+            border-bottom: 1px solid #ccc; /* Matches the thin underline from the example */
+            margin: 0 4px;
+            padding-bottom: 1px;
+            transition: border-bottom-color 0.2s;
+        }
+        .authors a:hover {
+            border-bottom-color: #111;
+        }
+        .authors sup {
+            color: #666;
+            font-size: 13px;
+            margin-left: 2px;
+        }
+        .affiliations {
+            font-size: 16px;
+            color: #333;
             margin-bottom: 40px;
+            line-height: 1.6;
+        }
+        .affiliations sup {
+            font-size: 12px;
+            margin-right: 3px;
+        }
+        /* Pill-shaped buttons styling to match the example */
+        .button-row {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 50px;
+            flex-wrap: wrap;
         }
         .btn {
-            background-color: #24292e;
-            color: white;
-            padding: 12px 24px;
+            background-color: #343a40;
+            color: #fff;
+            padding: 10px 22px;
+            border-radius: 25px; /* Pill shape */
             text-decoration: none;
-            border-radius: 6px;
-            font-weight: bold;
-            font-size: 1.1rem;
-            display: inline-block;
+            font-size: 16px;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
             transition: background-color 0.2s;
         }
         .btn:hover {
-            background-color: #0366d6;
+            background-color: #1a1e21;
+        }
+        .teaser-container {
+            width: 100%;
+            margin-bottom: 50px;
+        }
+        .teaser-container img {
+            width: 100%;
+            max-width: 800px;
+            height: auto;
+            border-radius: 8px;
+            /* Optional: Add shadow if you want it to pop out */
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
         }
         .abstract-section {
-            background-color: #f8f9fa;
-            padding: 25px 30px;
-            border-radius: 10px;
-            border: 1px solid #e9ecef;
-        }
-        .abstract-section h3 {
-            margin-top: 0;
             text-align: center;
-            font-size: 1.5rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .abstract-section h2 {
+            font-size: 26px;
+            font-weight: 500;
+            margin-bottom: 25px;
         }
         .abstract-section p {
+            font-size: 17px;
+            line-height: 1.7;
             text-align: justify;
-            margin-bottom: 0;
+            color: #222;
         }
     </style>
 </head>
 <body>
 
-    <h1>Inferring Vertical Air Flow by Spaceborne Imaging</h1>
+<div class="container">
     
+    <!-- Title and Conference -->
+    <h1 class="title">Inferring Vertical Air Flow by Spaceborne Imaging</h1>
+    <h2 class="conference">WACV 2027</h2>
+
+    <!-- Authors List -->
     <div class="authors">
-        Dor Danino, Udi Gal, Vadim Holodovsky, Daniel Rosenfeld,<br>
-        Barry Lynn, Céline Cornet, Yoav Schechner
+        <a href="#">Dor Danino</a><sup>1</sup>
+        <a href="#">Udi Gal</a><sup>1</sup>
+        <a href="#">Vadim Holodovsky</a><sup>1</sup>
+        <a href="#">Daniel Rosenfeld</a><sup>2</sup><br>
+        <a href="#">Barry Lynn</a><sup>2</sup>
+        <a href="#">Céline Cornet</a><sup>3</sup>
+        <a href="#">Yoav Schechner</a><sup>1</sup>
     </div>
-    
-    <div class="button-container">
+
+    <!-- Affiliations -->
+    <div class="affiliations">
+        <sup>1</sup>Technion--Israel Institute of Technology, Israel<br>
+        <sup>2</sup>The Hebrew University of Jerusalem, Israel<br>
+        <sup>3</sup>Univ. Lille, CNRS, France
+    </div>
+
+    <!-- Buttons -->
+    <div class="button-row">
+        <!-- Paper Button -->
+        <a href="#" class="btn">
+            <i class="fas fa-file-pdf"></i> Paper
+        </a>
+        <!-- Code Button -->
         <a href="https://github.com/dordanino12/Inferring-Vertical-Air-Flow" class="btn" target="_blank">
-            View Code on GitHub
+            <i class="fab fa-github"></i> Code
+        </a>
+        <!-- Data/Supplementary Button -->
+        <a href="#" class="btn">
+            <i class="fas fa-database"></i> Data
         </a>
     </div>
 
+    <!-- Teaser Image -->
+    <div class="teaser-container">
+        <!-- Replace 'teaser.png' with the path to your actual image in the repository -->
+        <!-- If you don't have an image yet, you can remove this img tag -->
+        <img src="teaser.png" alt="Teaser Image" onerror="this.style.display='none'">
+    </div>
+
+    <!-- Abstract -->
     <div class="abstract-section">
-        <h3>Abstract</h3>
+        <h2>Abstract</h2>
         <p>
             Understanding vertical airflow in cloud fields is critical for climate modeling. Anticipating upcoming multi-satellite missions, we propose a framework to infer this airflow both at the visible cloud envelope and targeted internal layers, using sequential passive 2D spaceborne stereo imagery. The estimation is challenging due to high-order scattering, opacity, and violations of brightness constancy. Inference is based on a spatiotemporal deep neural network, trained via a physics-based data generation pipeline. To the best of our knowledge, this is the first work to investigate whether spaceborne image sequences contain sufficient indirect information to infer this flow. We show that our learned mapping yields statistically consistent velocity estimates, laying the foundation for processing and exploiting observational data from future satellite space missions.
         </p>
     </div>
+
+</div>
 
 </body>
 </html>
