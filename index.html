@@ -69,6 +69,24 @@
             font-size: 12px;
             margin-right: 3px;
         }
+        .logo-row {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 40px;
+            margin: -20px 0 35px;
+        }
+        .logo-row img {
+            height: 60px;
+            width: auto;
+        }
+        .logo-row img.huji {
+            height: 72px;
+        }
+        .logo-row img.lille {
+            height: 42px;
+        }
         .button-row {
             display: flex;
             justify-content: center;
@@ -127,6 +145,267 @@
             text-align: justify;
             color: #222;
         }
+        .teaser-caption, .section .figure-caption {
+            font-size: 15px;
+            color: #555;
+            line-height: 1.5;
+            margin-top: 12px;
+        }
+        .teaser-caption {
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .section {
+            max-width: 800px;
+            margin: 60px auto 0;
+            text-align: center;
+        }
+        .section h2 {
+            font-size: 26px;
+            font-weight: 500;
+            margin-bottom: 25px;
+        }
+        .section h3 {
+            font-size: 20px;
+            font-weight: 500;
+            margin: 35px 0 15px;
+        }
+        .section p, .section li {
+            font-size: 17px;
+            line-height: 1.7;
+            text-align: justify;
+            color: #222;
+        }
+        .section ul {
+            text-align: left;
+            padding-left: 22px;
+        }
+        .section li {
+            margin-bottom: 8px;
+        }
+        .figure {
+            margin: 30px 0;
+        }
+        .figure img {
+            width: 100%;
+            height: auto;
+        }
+        .figure.narrow img {
+            max-width: 520px;
+        }
+        .pipeline {
+            display: flex;
+            align-items: stretch;
+            justify-content: center;
+            gap: 8px;
+        }
+        .pipe-step {
+            flex: 1 1 0;
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .pipe-step.render {
+            flex: 2.3 1 0;
+        }
+        .pipe-step.cloud4d {
+            flex: 1.3 1 0;
+        }
+        .pipe-body {
+            flex: 1;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .pipe-step img {
+            width: 100%;
+            height: auto;
+        }
+        .pipe-step img.pipe-icon {
+            width: 70%;
+            max-width: 110px;
+        }
+        .pipe-title {
+            font-size: 15px;
+            font-weight: 600;
+            line-height: 1.3;
+            margin-bottom: 10px;
+            min-height: 2.6em;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+        }
+        .pipe-title.red {
+            color: #c00000;
+        }
+        .section ul.pipe-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            text-align: center;
+        }
+        .section ul.pipe-list li {
+            font-size: 15px;
+            line-height: 1.5;
+            margin: 0;
+            text-align: center;
+        }
+        .pipe-arrow {
+            flex: 0 0 auto;
+            font-size: 22px;
+            color: #343a40;
+            display: flex;
+            align-items: center;
+            padding-top: calc(2.6em * 15 / 22 + 10px);
+        }
+        .annotated-fig {
+            max-width: 580px;
+            margin: 0 auto;
+        }
+        .annotated-fig.wide {
+            max-width: 800px;
+        }
+        .annotated-fig.wide .col-labels {
+            margin-left: 0;
+        }
+        .annotated-fig.wide img {
+            width: 100%;
+            height: auto;
+        }
+        .col-labels {
+            position: relative;
+            height: 28px;
+            margin-left: 30px;
+        }
+        .col-labels span {
+            position: absolute;
+            bottom: 4px;
+            transform: translateX(-50%);
+            white-space: nowrap;
+            font-size: 15px;
+            font-weight: 600;
+        }
+        .annot-body {
+            display: flex;
+        }
+        .row-labels {
+            position: relative;
+            flex: 0 0 30px;
+        }
+        .row-labels span {
+            position: absolute;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-90deg);
+            white-space: nowrap;
+            font-size: 15px;
+            font-weight: 600;
+        }
+        .annot-body img {
+            flex: 1 1 auto;
+            min-width: 0;
+            width: 100%;
+        }
+        .video-wrapper video {
+            width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            background: #000;
+        }
+        .highlight-row {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin: 30px 0;
+        }
+        .highlight {
+            flex: 1 1 200px;
+            max-width: 250px;
+            background: #f6f7f8;
+            border-radius: 10px;
+            padding: 18px 14px;
+        }
+        .highlight .value {
+            font-size: 28px;
+            font-weight: 600;
+            color: #111;
+        }
+        .highlight .label {
+            font-size: 14px;
+            color: #555;
+            margin-top: 6px;
+            line-height: 1.4;
+        }
+        .table-wrapper {
+            overflow-x: auto;
+            margin: 25px 0 10px;
+        }
+        table.results {
+            border-collapse: collapse;
+            margin: 0 auto;
+            font-size: 16px;
+        }
+        table.results th, table.results td {
+            padding: 8px 16px;
+            text-align: center;
+            border-bottom: 1px solid #e3e3e3;
+        }
+        table.results thead th {
+            border-bottom: 2px solid #333;
+            font-weight: 600;
+        }
+        table.results td:first-child, table.results th:first-child {
+            text-align: left;
+        }
+        .figure-row {
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+            flex-wrap: wrap;
+        }
+        .figure-row .figure {
+            flex: 1 1 300px;
+            margin: 10px 0;
+        }
+        .bibtex-container {
+            position: relative;
+            text-align: left;
+        }
+        .bibtex-container pre {
+            background: #f6f7f8;
+            border-radius: 8px;
+            padding: 20px;
+            font-size: 14px;
+            line-height: 1.5;
+            overflow-x: auto;
+            margin: 0;
+        }
+        @media (max-width: 640px) {
+            .pipeline {
+                flex-direction: column;
+            }
+            .pipe-step, .pipe-step.render, .pipe-step.cloud4d {
+                width: 80%;
+            }
+            .pipe-arrow {
+                align-self: center;
+                padding: 8px 0;
+            }
+            .pipe-arrow i {
+                display: inline-block;
+                transform: rotate(90deg);
+            }
+            .col-labels span {
+                font-size: 11px;
+            }
+            .row-labels span {
+                font-size: 12px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -137,7 +416,7 @@
     <h2 class="conference">WACV 2027</h2>
 
     <div class="authors">
-        <a href="#">Dor Danino</a><sup>1</sup>
+        <a href="https://www.linkedin.com/in/dor-danino-27aa41237" target="_blank" rel="noopener">Dor Danino</a><sup>1</sup>
         <a href="#">Udi Gal</a><sup>1</sup>
         <a href="#">Vadim Holodovsky</a><sup>1</sup>
         <a href="#">Daniel Rosenfeld</a><sup>2</sup><br>
@@ -150,6 +429,12 @@
         <sup>1</sup>Technion--Israel Institute of Technology, Israel<br>
         <sup>2</sup>The Hebrew University of Jerusalem, Israel<br>
         <sup>3</sup>Univ. Lille, CNRS, France
+    </div>
+
+    <div class="logo-row">
+        <img src="images/logos/technion.png" alt="Technion – Israel Institute of Technology">
+        <img src="images/logos/huji.png" alt="The Hebrew University of Jerusalem" class="huji">
+        <img src="images/logos/lille.png" alt="Université de Lille" class="lille">
     </div>
 
     <div class="button-row">
@@ -168,7 +453,10 @@
     </div>
 
     <div class="teaser-container">
-        <img src="teaser.png" alt="Teaser Image" onerror="this.style.display='none'">
+        <img src="images/teaser.png" alt="Sequential stereo acquisition of an evolving cloud field from orbit">
+        <p class="teaser-caption">
+            Sequential stereo acquisition from orbit, observing an evolving cloud field, alongside corresponding synchronized stereo image pairs captured along the orbital trajectory.
+        </p>
     </div>
 
     <div class="abstract-section">
@@ -176,6 +464,184 @@
         <p>
             Understanding vertical airflow in cloud fields is critical for climate modeling. Anticipating upcoming multi-satellite missions, we propose a framework to infer this airflow both at the visible cloud envelope and targeted internal layers, using sequential passive 2D spaceborne stereo imagery. The estimation is challenging due to high-order scattering, opacity, and violations of brightness constancy. Inference is based on a spatiotemporal deep neural network, trained via a physics-based data generation pipeline. To the best of our knowledge, this is the first work to investigate whether spaceborne image sequences contain sufficient indirect information to infer this flow. We show that our learned mapping yields statistically consistent velocity estimates, laying the foundation for processing and exploiting observational data from future satellite space missions.
         </p>
+    </div>
+
+    <div class="section">
+        <h2>Video</h2>
+        <div class="video-wrapper">
+            <video controls preload="metadata" playsinline>
+                <source src="demo.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Overview</h2>
+        <p>
+            Atmospheric studies involve 3D, time-evolving kinematics&mdash;especially vertical air velocity and mass flux. Vertical flows serve as a &ldquo;hidden engine&rdquo; of deep convection. They largely determine precipitation formation, maximum cloud altitude, storm electrification, and coupling to large-scale climate circulation. The flows are exceptionally difficult to observe. Clouds induce a very high order of scattering, severely degrading visibility to decameters into the cloud envelope. Furthermore, because clouds are translucent and turbulent, brightness constancy over viewpoints and time does not hold. This challenges classic methods of both multi-view computer vision and temporal tracking.
+        </p>
+        <p>
+            This work proposes solving the problem by a combination of stereoscopic orbiting imaging and machine learning. We further tune the approach towards temporal sequences of upcoming passive spaceborne stereo missions, such as <a href="https://cnes.fr/en/projects/c3iel" target="_blank" rel="noopener">C<sup>3</sup>IEL</a> (Cluster for Cloud Evolution, Climate and Lightning) and <a href="https://www.cloudct.space/" target="_blank" rel="noopener">CloudCT</a>. The system infers vertical velocity fields (<i>V<sub>z</sub></i>) both at the visible cloud envelope and across targeted internal horizontal layers.
+        </p>
+
+        <div class="figure">
+            <img src="images/fig2_pipeline.png" alt="Method pipeline">
+            <p class="figure-caption">
+                Physics-based rendering of LES-generated 4D clouds yields synthetic stereo sequences from orbiting satellites, for training. Sequences are processed by a DNN, comprising an encoder, temporal aggregation and a decoder. Outputs are vertical flow velocity fields <i>V&#770;<sub>z</sub>(t)</i>. The DNN is optimized to fit inference to the ground-truth flow of either the cloud envelope or layer altitudes, <i>V<sub>z</sub>(t)</i>.
+            </p>
+        </div>
+
+        <h3>Contributions</h3>
+        <ul>
+            <li><b>A fundamentally new problem.</b> This work formulates a fundamentally new problem, and establishes that spatiotemporal stereo sequences contain sufficient indirect signals to retrieve vertical airflow.</li>
+            <li><b>A 4D cloud evolution and image database.</b> We assembled a unique dataset of volumetric cloud content, flow, and corresponding images from orbit, by physics-based generation: a Large Eddy Simulation of atmospheric fluid dynamics, volumetric path tracing, orbital motion, and solar illumination changes. We introduce and release this database, providing the community with a vital benchmark for future research.</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>Physics-Based Cloud Data and Rendering</h2>
+        <p>
+            Ground-truth air flow over large cloud fields, with simultaneous images of these clouds from space, does not exist. Therefore, our work relies on physical data generation. We use a Large Eddy Simulation (LES), which outputs rich volumetric spatiotemporal atmospheric fields. Given these physics-based clouds evolving spatiotemporally, corresponding satellite images are rendered using Monte Carlo path tracing, accounting for high-order multiple scattering, orbital motion and solar illumination changes.
+        </p>
+
+        <div class="figure">
+            <div class="pipeline">
+                <div class="pipe-step">
+                    <div class="pipe-title red">Boundary conditions</div>
+                    <div class="pipe-body">
+                        <ul class="pipe-list">
+                            <li>Aerosols</li>
+                            <li>Temperature</li>
+                            <li>Wind</li>
+                            <li>Humidity</li>
+                            <li>Surface flux</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="pipe-arrow"><i class="fas fa-arrow-right"></i></div>
+                <div class="pipe-step">
+                    <div class="pipe-title red">Physics-based cloud generator</div>
+                    <div class="pipe-body"><img class="pipe-icon" src="images/cloud_generator_icon.svg" alt="Physics-based cloud generator"></div>
+                </div>
+                <div class="pipe-arrow"><i class="fas fa-arrow-right"></i></div>
+                <div class="pipe-step cloud4d">
+                    <div class="pipe-title">Simulated 4D cloud field</div>
+                    <div class="pipe-body"><img src="images/simulated_4d_cloud.png" alt="Simulated 4D cloud field"></div>
+                </div>
+                <div class="pipe-arrow"><i class="fas fa-arrow-right"></i></div>
+                <div class="pipe-step render">
+                    <div class="pipe-title">Physics-based rendering</div>
+                    <div class="pipe-body"><img src="images/fig4_path_tracing_labels.png" alt="Monte Carlo path tracing within a cloud"></div>
+                </div>
+            </div>
+            <p class="figure-caption">
+                Boundary conditions drive a physics-based cloud generator (LES), yielding a simulated 4D cloud field. Physics-based rendering of the LES-generated 4D clouds (Monte Carlo path tracing) yields synthetic stereo sequences from orbiting satellites, for training.
+            </p>
+        </div>
+
+        <div class="figure">
+            <div class="annotated-fig wide">
+                <div class="col-labels">
+                    <span style="left:14.5%">Rendered image</span>
+                    <span style="left:43.7%">Ground truth <i>V<sub>z</sub></i> (envelope)</span>
+                    <span style="left:78.2%">Ground truth <i>V<sub>z</sub></i> (Z = 500 m)</span>
+                </div>
+                <img src="images/fig3_data_example.png" alt="Rendered image and ground-truth vertical velocity">
+            </div>
+            <p class="figure-caption">
+                Colorbars indicate the vertical velocity in [m/s].
+            </p>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Key Results</h2>
+        <p>
+            Typical boundary-layer cloud updrafts may reach up to 7&nbsp;m/s. Field campaigns deploying in-situ aircraft probes through clouds demonstrate that this physical variability (turbulent standard deviation) reaches up to 1.67&nbsp;m/s. A satisfactory inference model should yield an error standard deviation bounded well within this natural physical variability, i.e., smaller than 1.6&nbsp;m/s. Our model maintains an error standard deviation (STD) of 1.02&nbsp;m/s. Our inference model seems to have a smaller uncertainty than natural variability in a chaotic atmospheric vertical flow.
+        </p>
+
+        <div class="highlight-row">
+            <div class="highlight">
+                <div class="value">1.02 m/s</div>
+                <div class="label">Error STD at the cloud envelope, smaller than the natural variability (1.6&nbsp;m/s)</div>
+            </div>
+            <div class="highlight">
+                <div class="value">0.74 m/s</div>
+                <div class="label">MAE at the cloud envelope</div>
+            </div>
+        </div>
+
+        <div class="table-wrapper">
+            <table class="results">
+                <thead>
+                    <tr>
+                        <th>Statistic [m/s]</th>
+                        <th>Envelope</th>
+                        <th>Z = 500 m</th>
+                        <th>Z = 1000 m</th>
+                        <th>Z = 1500 m</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>MAE</td><td>0.74</td><td>0.22 / 0.34</td><td>0.19 / 0.37</td><td>0.16 / 0.27</td></tr>
+                    <tr><td>Mean error</td><td>0.21</td><td>&minus;0.07 / &minus;0.03</td><td>0.02 / 0.06</td><td>0.04 / 0.07</td></tr>
+                    <tr><td>STD</td><td>1.02</td><td>0.31 / 0.44</td><td>0.38 / 0.64</td><td>0.32 / 0.56</td></tr>
+                </tbody>
+            </table>
+        </div>
+        <p class="figure-caption">
+            Performance statistics on the test set, comprising 81 Million measurements per layer. For altitude layers, results are presented as <i>Unmasked / Masked</i>: over the full spatial domain (unmasked) and only within active cloud regions (masked).
+        </p>
+
+        <div class="figure">
+            <div class="annotated-fig">
+                <div class="col-labels">
+                    <span style="left:16.4%">Input image</span>
+                    <span style="left:46.5%">Ground truth <i>V<sub>z</sub></i></span>
+                    <span style="left:76.6%">Inferred <i>V&#770;<sub>z</sub></i></span>
+                </div>
+                <div class="annot-body">
+                    <div class="row-labels">
+                        <span style="top:17.5%">Envelope</span>
+                        <span style="top:50%">Z = 1000 m</span>
+                        <span style="top:82.4%">Z = 1500 m</span>
+                    </div>
+                    <img src="images/fig7_qualitative.png" alt="Qualitative results">
+                </div>
+            </div>
+            <p class="figure-caption">
+                Colorbars indicate the vertical velocity in [m/s].
+            </p>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Real-World Experiment</h2>
+        <p>
+            Until stereo-satellites are launched, there is no suitable data in existence. We found coordinated flights in the 2013 NASA SEAC4RS field campaign: an ER-2 aircraft imaged clouds with AirMSPI from 20&nbsp;km, while a DC-8 aircraft flew in that general region, yielding 1,317 in-situ velocity measurements. We infer <i>V<sub>z</sub></i> and compare the statistical distributions.
+        </p>
+
+        <div class="figure">
+            <img src="images/fig10_seac4rs_overlap.png" alt="SEAC4RS spatiotemporal overlap">
+            <p class="figure-caption">
+                The AirMSPI optical footprint intersects the DC-8 path (green line).
+            </p>
+        </div>
+
+        <div class="figure narrow">
+            <img src="images/fig11_seac4rs_results.png" alt="SEAC4RS results">
+            <p class="figure-caption">
+                The density distributions are consistent. The Wasserstein distance is 0.15&nbsp;m/s and the quantile MAE is 0.14&nbsp;m/s.
+            </p>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>BibTeX</h2>
+        <div class="bibtex-container">
+<pre id="bibtex">Coming soon</pre>
+        </div>
     </div>
 
 </div>
