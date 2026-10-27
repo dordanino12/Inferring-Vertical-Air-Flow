@@ -289,6 +289,12 @@
             font-size: 15px;
             font-weight: 600;
         }
+        .col-labels .lbl-sub {
+            position: static;
+            transform: none;
+            width: auto;
+            font-weight: inherit;
+        }
         .annot-body {
             display: flex;
         }
@@ -387,9 +393,16 @@
         @media (max-width: 640px) {
             .pipeline {
                 flex-direction: column;
+                align-items: center;
             }
             .pipe-step, .pipe-step.render, .pipe-step.cloud4d {
-                width: 80%;
+                width: 85%;
+            }
+            .pipe-step.render {
+                width: 100%;
+            }
+            .pipe-title {
+                min-height: 0;
             }
             .pipe-arrow {
                 align-self: center;
@@ -399,11 +412,29 @@
                 display: inline-block;
                 transform: rotate(90deg);
             }
+            .col-labels {
+                height: 34px;
+            }
             .col-labels span {
                 font-size: 11px;
+                white-space: normal;
+                width: 30%;
+                text-align: center;
+                line-height: 1.2;
             }
             .row-labels span {
                 font-size: 12px;
+            }
+            .col-labels .lbl-sub {
+                display: block;
+            }
+            table.results {
+                font-size: 11px;
+            }
+            table.results th, table.results td {
+                padding: 6px 3px;
+                white-space: nowrap;
+                word-spacing: -1.5px;
             }
         }
     </style>
@@ -544,8 +575,8 @@
             <div class="annotated-fig wide">
                 <div class="col-labels">
                     <span style="left:14.5%">Rendered image</span>
-                    <span style="left:43.7%">Ground truth <i>V<sub>z</sub></i> (envelope)</span>
-                    <span style="left:78.2%">Ground truth <i>V<sub>z</sub></i> (Z = 500 m)</span>
+                    <span style="left:43.7%">Ground truth <i>V<sub>z</sub></i> <span class="lbl-sub">(envelope)</span></span>
+                    <span style="left:78.2%">Ground truth <i>V<sub>z</sub></i> <span class="lbl-sub">(Z&nbsp;=&nbsp;500&nbsp;m)</span></span>
                 </div>
                 <img src="images/fig3_data_example.png" alt="Rendered image and ground-truth vertical velocity">
             </div>
