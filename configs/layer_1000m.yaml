@@ -1,0 +1,4 @@
+# Table 1 / Fig. 6-7: horizontal layer Z=1000 m, stereo.
+base: base.yaml
+name: layer_1000m
+data: {kfold_dir: layer_1000m}

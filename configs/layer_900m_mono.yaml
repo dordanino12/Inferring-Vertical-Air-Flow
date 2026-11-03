@@ -1,0 +1,4 @@
+# Horizontal layer Z=900 m, monocular. The model applied to the SEAC4RS / AirMSPI data (Sec. 5, Fig. 11).
+base: base.yaml
+name: layer_900m_mono
+data: {kfold_dir: layer_900m, use_one_satellite: true}

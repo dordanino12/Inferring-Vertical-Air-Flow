@@ -1,0 +1,5 @@
+# Table 3: cloud envelope, monocular (satellite A only).
+base: base.yaml
+name: envelope_mono
+data: {kfold_dir: envelope, target: envelope, use_one_satellite: true}
+loss: {use_mask: true}

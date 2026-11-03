@@ -1,0 +1,29 @@
+# Shared settings. Experiment configs set `base: base.yaml` and override fields.
+data:
+  kfold_dir: null            # folder under --data-root with fold_*/ and test_w.npz
+  target: layer              # envelope | layer  (selects the evaluation mask)
+  use_one_satellite: false   # true = monocular (satellite A only)
+
+model:
+  backbone: mit_b1           # mit_b1 | resnet18
+  use_conv_lstm: true
+
+train:
+  epochs_stage1: 20          # encoder frozen
+  epochs_stage2: 80          # encoder trainable
+  batch_size_stage1: 32
+  batch_size_stage2: 16
+  lr_stage1: 1.0e-3
+  lr_stage2: 3.0e-4
+  weight_decay: 1.0e-4
+  plateau_patience_stage1: 3
+  plateau_patience_stage2: 5
+  grad_clip: 1.0
+  seed: 0                    # the original runs were not seeded
+
+loss:
+  schedule: power_to_bins    # power_to_bins | bins | power | l1
+  power_epochs: 10
+  interp_epochs: 5
+  use_mask: slice_mask       # true (envelope: cloudy pixels only) | slice_mask (layers) | false
+  unmasked_weight: 0.9       # M for non-cloudy pixels in slice_mask mode

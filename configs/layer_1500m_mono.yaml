@@ -1,0 +1,4 @@
+# Table 3: horizontal layer Z=1500 m, monocular (satellite A only).
+base: base.yaml
+name: layer_1500m_mono
+data: {kfold_dir: layer_1500m, use_one_satellite: true}

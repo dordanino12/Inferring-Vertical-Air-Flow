@@ -1,2 +1,167 @@
 # Inferring Vertical Air Flow by Spaceborne Imaging (WACV 2027)
-> **Note:** The code, dataset, and trained models are currently being organized and will be uploaded here soon.
+
+Dor Danino, Udi Gal, Vadim Holodovsky, Daniel Rosenfeld, Barry Lynn, Céline Cornet, Yoav Y. Schechner
+
+Paper (link TBA) · Project page: `index.html` · Data & checkpoints (link TBA)
+
+We infer the vertical air velocity $V_z$, both at the visible cloud envelope and on
+horizontal layers inside and around clouds, from sequences of stereo images taken by two
+orbiting satellites. A spatiotemporal U-Net (MiT-B1 encoder, ConvLSTM in the bottleneck
+and in the skip connections) is trained on physics-based data. That data is made by
+path-tracing LES cloud fields (Mitsuba 3) along a realistic orbit. We then apply the
+model to real AirMSPI imagery from the SEAC4RS campaign.
+
+![pipeline](images/fig2_pipeline.png)
+
+## Repository layout
+
+```
+vertical_airflow/        model, dataset, losses, helpers
+train.py                 K-fold training of one experiment (one YAML config)
+evaluate.py              K-fold ensemble evaluation (Tables 1-3, Fig. 6)
+configs/                 one config per experiment in the paper
+figures/                 Fig. 6 scatter, Fig. 7 qualitative panels, supplementary video
+data_generation/         LES -> volumes -> Mitsuba renders -> ground-truth maps -> K-fold dataset
+                         (+ render_noise_analysis.py: supplementary rendering-noise figure)
+real_data/seac4rs/       AirMSPI / DC-8 real-data experiment (Sec. 5, Fig. 11)
+assets/                  satellite overpass geometry (2 satellites, 12 times x 20 s)
+scripts/                 train / evaluate all experiments
+```
+
+## Installation
+
+```bash
+python -m venv venv && source venv/bin/activate     # tested with Python 3.8, CUDA 11.8
+pip install torch==2.4.1 torchvision==0.19.1 --index-url https://download.pytorch.org/whl/cu118
+pip install -r requirements.txt
+```
+The ImageNet weights of the MiT-B1 / ResNet18 encoders are downloaded automatically by
+`segmentation-models-pytorch` the first time a model is built.
+
+## Data and checkpoints
+
+*Download links will be added here.* The code expects one folder per target under `data/`:
+
+```
+data/
+  envelope/  layer_500m/  layer_900m/  layer_1000m/  layer_1500m/
+     test_w.npz                                   # shared test set (414 sequences)
+     fold_01_val_r0-1_c0-2/{train_w,val_w}.npz    # 4 spatial folds
+     fold_02_val_r0-1_c4-6/ ...
+     fold_03_val_r2-3_c0-6/ ...
+     fold_04_val_r5-6_c0-2/ ...
+```
+Each `.npz` holds `X` (float32 `[N, 12, 2, 128, 128]`, radiance of satellites A and B) and
+`Y` (float32 `[N, 12, 1, 128, 128]`, $V_z$ in m/s). Checkpoints go in
+`checkpoints/<experiment>/`, one file per fold, named `<fold>.pt` or `*_<fold>_best_bin_loss.pt`.
+
+## Reproducing the paper
+
+| Paper | Config(s) |
+|---|---|
+| Table 1, Fig. 6 (left), Fig. 7 | `envelope`, `layer_500m`, `layer_1000m`, `layer_1500m` |
+| Table 2 (architecture ablation) | `ablation_no_convlstm`, `ablation_resnet18`, `ablation_resnet18_no_convlstm` |
+| Table 3 (monocular) | `envelope_mono`, `layer_500m_mono`, `layer_1000m_mono`, `layer_1500m_mono` |
+| Fig. 6 right (loss ablation) | `ablation_loss_l1`, `ablation_loss_power` (bin loss = `envelope`) |
+| Sec. 5, Fig. 11 (SEAC4RS) | `layer_900m_mono` |
+
+**Evaluate** released checkpoints (4-model ensemble on the test set):
+```bash
+python evaluate.py --config configs/layer_1000m.yaml --checkpoints checkpoints/layer_1000m --scatter
+#   unmasked  MAE=0.19  ME=+0.03  STD=0.38 ...
+#   masked    MAE=0.37  ME=+0.07  STD=0.64 ...
+bash scripts/eval_all.sh            # all experiments
+```
+
+**Train** (4 folds, about 1 h per fold on one RTX 3090):
+```bash
+python train.py --config configs/envelope.yaml            # -> checkpoints/envelope/fold_0K_*.pt
+bash scripts/train_all.sh                                  # every experiment
+```
+Long runs: `tmux new -s retrain 'bash scripts/retrain_table1.sh'` trains and evaluates the Table 1
+experiments detached from the terminal; `bash scripts/status.sh` shows the progress. `train.py --skip-existing`
+resumes an interrupted run from the last finished fold.
+Training runs for 100 epochs in two stages. Stage 1 (epochs 1–20) freezes the encoder and uses batch
+size 32 with AdamW at 1e-3. Stage 2 (epochs 21–100) trains all weights with batch size 16 and AdamW at 3e-4. The loss starts as the power loss,
+then blends linearly into the inverse-frequency bin loss (Eq. 6) between epochs 11 and 15, and is the
+bin loss from epoch 16 on. The kept checkpoint has the lowest validation bin loss.
+
+The loss mask M depends on the target:
+- **Envelope:** only cloudy pixels count, and the velocity bins are computed on cloudy pixels too.
+- **Horizontal layers:** the cloud mask of the middle frame is dilated by 5×5 pixels and applied to
+  all frames. Cloudy pixels get weight 1 and the rest 0.9.
+
+The training runs were not seeded, so retrained models match the released checkpoints statistically,
+not bit for bit.
+
+## Generating the dataset
+
+The pipeline turns an LES run (512 × 512 × 200 voxels at 20 m, 848 time steps 20 s apart) into the
+training sets:
+
+```bash
+# 1. LES netCDF -> 49 overlapping 128x128x200 volumes per time step (beta_ext, U, V, W)
+python data_generation/les_to_volumes.py --input LES_netcdf/ --output volumes/
+# 2. Monte Carlo volumetric path tracing (Mitsuba 3 volpath, g=0.85, 8192 spp, ocean albedo 0.03), 2 satellites
+python data_generation/render_dataset.py --input volumes/ --output renders/
+# 3. Ground-truth V_z: cloud envelope (first cloudy voxel along each ray) and horizontal layers
+python data_generation/velocity_maps.py --mode envelope --input volumes/ --output maps_envelope/
+python data_generation/velocity_maps.py --mode layer --height 1000 --input volumes/ --output maps_1000m/
+# 4. 12-frame sequences, 256->128 px, camera noise, spatial K-fold split
+python data_generation/build_kfold_dataset.py --renders renders/ --maps maps_1000m/ --output data/layer_1000m
+```
+Rendering the full dataset took about 3 days on 10 RTX 3090 GPUs. Use `--start/--end` to split the time
+range across machines.
+
+## Real-data experiment (SEAC4RS, 12 Aug 2013)
+
+Inputs, available from NASA Earthdata (see the paper's references):
+- AirMSPI L1B2 granules `AirMSPI_ER2_GRP_ELLIPSOID_20130812_18*_AL-Heflin_*_F01_V005.hdf` (9 views)
+- DC-8 Meteorological Measurement System 1 Hz data `SEAC4RS-MMS-1HZ_DC8_20130812_R0.ict`
+
+```bash
+python real_data/seac4rs/prepare_airmspi.py --hdf-dir AirMSPI/20130812 --output results/seac4rs/airmspi.npz
+python real_data/seac4rs/prepare_dc8.py --ict SEAC4RS-MMS-1HZ_DC8_20130812_R0.ict --output results/seac4rs/dc8.csv
+python real_data/seac4rs/infer_airmspi.py --npz results/seac4rs/airmspi.npz \
+    --checkpoints checkpoints/layer_900m_mono --kfold-dir data/layer_900m --output-dir results/seac4rs
+python real_data/seac4rs/compare_distributions.py --insitu results/seac4rs/dc8.csv \
+    --model results/seac4rs/model_vz_pooled.csv --output results/seac4rs/fig11.pdf
+#   Wasserstein distance 0.146 m/s | Q-Q MAE 0.143 m/s
+```
+
+## Figures and video
+
+```bash
+# Fig. 6 left: Z=1000 m, Z=1500 m and envelope on one plot
+python figures/fig6_scatter.py --output results/fig6_left.pdf --runs \
+    "Z = 1000m=configs/layer_1000m.yaml:checkpoints/layer_1000m:tab:red" \
+    "Z = 1500m=configs/layer_1500m.yaml:checkpoints/layer_1500m:tab:green" \
+    "Envelope=configs/envelope.yaml:checkpoints/envelope:tab:blue"
+# Fig. 6 right: loss ablation
+python figures/fig6_scatter.py --output results/fig6_right.pdf --title "Loss Ablation" --runs \
+    "L1 loss=configs/ablation_loss_l1.yaml:checkpoints/ablation_loss_l1:tab:red" \
+    "Power loss=configs/ablation_loss_power.yaml:checkpoints/ablation_loss_power:tab:green" \
+    "Bin loss=configs/envelope.yaml:checkpoints/envelope:tab:blue"
+# Fig. 7: input / ground truth / inferred for one test sequence and frame
+python figures/fig7_qualitative.py --sequence 100 --frame 5 --output-dir results/fig7 --runs \
+    "Envelope=configs/envelope.yaml:checkpoints/envelope" \
+    "Z = 1000m=configs/layer_1000m.yaml:checkpoints/layer_1000m" \
+    "Z = 1500m=configs/layer_1500m.yaml:checkpoints/layer_1500m"
+# Supplementary video
+python figures/demo_video.py --sequence 200 --output results/supplementary_video.mp4 \
+    --envelope configs/envelope.yaml:checkpoints/envelope \
+    --layers configs/layer_500m.yaml:checkpoints/layer_500m configs/layer_1000m.yaml:checkpoints/layer_1000m \
+             configs/layer_1500m.yaml:checkpoints/layer_1500m
+# Supplementary: Monte Carlo rendering noise vs. Poisson noise (10 renders x 8192 spp)
+python data_generation/render_noise_analysis.py --sample volumes/0000005920/sample_012.pkl --output results/render_noise.pdf
+```
+
+## Citation
+
+BibTeX will be added once the proceedings are published.
+
+## Acknowledgements
+
+LES BOMEX data: Orit Altaratz and Ilan Koren. Rendering: [Mitsuba 3](https://mitsuba-renderer.org).
+Model backbones: [segmentation-models-pytorch](https://github.com/qubvel/segmentation_models.pytorch).
+See the paper for full acknowledgements. Code released under the MIT License.

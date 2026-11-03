@@ -1,0 +1,5 @@
+# Table 1 / Fig. 6-7: cloud envelope, stereo.
+base: base.yaml
+name: envelope
+data: {kfold_dir: envelope, target: envelope}
+loss: {use_mask: true}

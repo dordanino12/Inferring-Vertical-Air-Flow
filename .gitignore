@@ -1,0 +1,25 @@
+# data, checkpoints and results are not tracked
+data/
+checkpoints/
+results/
+*.npz
+*.pt
+*.pth
+*.vol
+*.pkl
+*.hdf
+*.ict
+
+# python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# editors / OS
+.idea/
+.vscode/
+.DS_Store
+runs/
+logs/
