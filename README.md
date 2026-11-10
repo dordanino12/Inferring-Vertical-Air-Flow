@@ -20,9 +20,8 @@ vertical_airflow/        model, dataset, losses, helpers
 train.py                 K-fold training of one experiment (one YAML config)
 evaluate.py              K-fold ensemble evaluation (Tables 1-3, Fig. 6)
 configs/                 one config per experiment in the paper
-figures/                 Fig. 6 scatter, Fig. 7 qualitative panels, supplementary video
+figures/                 Fig. 6 scatter, Fig. 7 qualitative panels
 data_generation/         LES -> volumes -> Mitsuba renders -> ground-truth maps -> K-fold dataset
-                         (+ render_noise_analysis.py: supplementary rendering-noise figure)
 real_data/seac4rs/       AirMSPI / DC-8 real-data experiment (Sec. 5, Fig. 11)
 assets/                  satellite overpass geometry (2 satellites, 12 times x 20 s)
 scripts/                 train / evaluate all experiments
@@ -120,21 +119,24 @@ range across machines.
 
 ## Real-data experiment (SEAC4RS, 12 Aug 2013)
 
-Inputs, available from NASA Earthdata (see the paper's references):
-- AirMSPI L1B2 granules `AirMSPI_ER2_GRP_ELLIPSOID_20130812_18*_AL-Heflin_*_F01_V005.hdf` (9 views)
-- DC-8 Meteorological Measurement System 1 Hz data `SEAC4RS-MMS-1HZ_DC8_20130812_R0.ict`
+The ready-to-use inputs are in `real_data/seac4rs/data/`:
+- `airmspi.npz`: the model input sequence, `X` float32 `[1, 9, 2, 128, 128]` in [0, 1]. It was made from the
+  AirMSPI L1B2 granules `AirMSPI_ER2_GRP_ELLIPSOID_20130812_18*_AL-Heflin_*_F01_V005.hdf` (9 views, 355 nm
+  intensity, cropped around the cloud field and resized to 128 x 128).
+- `dc8.csv`: DC-8 in-situ vertical velocity in the matching time window, from the Meteorological Measurement
+  System 1 Hz data `SEAC4RS-MMS-1HZ_DC8_20130812_R0.ict`.
+
+The original granules and DC-8 data are available from NASA Earthdata (see the paper's references).
 
 ```bash
-python real_data/seac4rs/prepare_airmspi.py --hdf-dir AirMSPI/20130812 --output results/seac4rs/airmspi.npz
-python real_data/seac4rs/prepare_dc8.py --ict SEAC4RS-MMS-1HZ_DC8_20130812_R0.ict --output results/seac4rs/dc8.csv
-python real_data/seac4rs/infer_airmspi.py --npz results/seac4rs/airmspi.npz \
+python real_data/seac4rs/infer_airmspi.py --npz real_data/seac4rs/data/airmspi.npz \
     --checkpoints checkpoints/layer_900m_mono --kfold-dir data/layer_900m --output-dir results/seac4rs
-python real_data/seac4rs/compare_distributions.py --insitu results/seac4rs/dc8.csv \
+python real_data/seac4rs/compare_distributions.py --insitu real_data/seac4rs/data/dc8.csv \
     --model results/seac4rs/model_vz_pooled.csv --output results/seac4rs/fig11.pdf
 #   Wasserstein distance 0.146 m/s | Q-Q MAE 0.143 m/s
 ```
 
-## Figures and video
+## Figures
 
 ```bash
 # Fig. 6 left: Z=1000 m, Z=1500 m and envelope on one plot
@@ -147,13 +149,6 @@ python figures/fig7_qualitative.py --sequence 100 --frame 5 --output-dir results
     "Envelope=configs/envelope.yaml:checkpoints/envelope" \
     "Z = 1000m=configs/layer_1000m.yaml:checkpoints/layer_1000m" \
     "Z = 1500m=configs/layer_1500m.yaml:checkpoints/layer_1500m"
-# Supplementary video
-python figures/demo_video.py --sequence 200 --output results/supplementary_video.mp4 \
-    --envelope configs/envelope.yaml:checkpoints/envelope \
-    --layers configs/layer_500m.yaml:checkpoints/layer_500m configs/layer_1000m.yaml:checkpoints/layer_1000m \
-             configs/layer_1500m.yaml:checkpoints/layer_1500m
-# Supplementary: Monte Carlo rendering noise vs. Poisson noise (10 renders x 8192 spp)
-python data_generation/render_noise_analysis.py --sample volumes/0000005920/sample_012.pkl --output results/render_noise.pdf
 ```
 
 ## Citation

@@ -6,7 +6,7 @@ The sequence is processed causally: for every frame t the model sees frames
 K fold models are averaged. Background (clear-sky) pixels are excluded and the
 inferred velocities of all frames are pooled for the distribution comparison.
 
-    python real_data/seac4rs/infer_airmspi.py --npz airmspi_sequence.npz \
+    python real_data/seac4rs/infer_airmspi.py --npz real_data/seac4rs/data/airmspi.npz \
         --checkpoints checkpoints/layer_900m_mono --kfold-dir data/layer_900m --output-dir results/seac4rs
 """
 import argparse
@@ -24,7 +24,7 @@ from vertical_airflow.utils import find_fold_checkpoint, fold_dirs, load_model_f
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--npz", required=True, help="output of prepare_airmspi.py")
+    ap.add_argument("--npz", required=True, help="AirMSPI input sequence, e.g. real_data/seac4rs/data/airmspi.npz")
     ap.add_argument("--checkpoints", required=True, help="fold checkpoints of the layer_900m_mono model")
     ap.add_argument("--kfold-dir", required=True, help="matching training data (for the de-normalisation scale)")
     ap.add_argument("--output-dir", required=True)

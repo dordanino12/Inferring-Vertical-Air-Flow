@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Retrain experiments of the paper (4 folds each, ~4-5 h per experiment on one RTX 3090), evaluate
 # each ensemble, and compare with the paper and the released checkpoints (OUT/retrain_vs_paper.md).
-# layer_900m_mono is also run on the SEAC4RS AirMSPI data (needs AIRMSPI_NPZ and DC8_CSV).
+# layer_900m_mono is also run on the SEAC4RS AirMSPI data (real_data/seac4rs/data/).
 # Safe to re-run: finished folds are skipped (--skip-existing). Run it detached, e.g.
 #   tmux new -s retrain 'bash scripts/retrain.sh'              # every experiment (~3 days)
 #   EXPERIMENTS="envelope layer_500m" bash scripts/retrain.sh  # a subset
@@ -12,8 +12,8 @@ DATA_ROOT=${DATA_ROOT:-data}
 OUT=${OUT:-runs/retrain}
 EXPERIMENTS=${EXPERIMENTS:-"envelope layer_500m layer_1000m layer_1500m
   envelope_mono layer_500m_mono layer_1000m_mono layer_1500m_mono layer_900m_mono"}
-AIRMSPI_NPZ=${AIRMSPI_NPZ:-results/seac4rs/airmspi.npz}
-DC8_CSV=${DC8_CSV:-results/seac4rs/dc8.csv}
+AIRMSPI_NPZ=${AIRMSPI_NPZ:-real_data/seac4rs/data/airmspi.npz}
+DC8_CSV=${DC8_CSV:-real_data/seac4rs/data/dc8.csv}
 mkdir -p "$OUT/logs" "$OUT/eval"
 STATUS="$OUT/STATUS.txt"; HISTORY="$OUT/history.txt"
 note() { echo "$(date '+%Y-%m-%d %H:%M') | $*" | tee -a "$HISTORY"; }

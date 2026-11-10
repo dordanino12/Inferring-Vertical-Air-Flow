@@ -5,7 +5,7 @@ Reports value ranges, the Wasserstein (earth mover's) distance and the MAE
 between matched quantiles (1st..99th percentile), and draws the density
 overlay with the Q-Q points on a twin axis.
 
-    python real_data/seac4rs/compare_distributions.py --insitu dc8_window.csv \
+    python real_data/seac4rs/compare_distributions.py --insitu real_data/seac4rs/data/dc8.csv \
         --model results/seac4rs/model_vz_pooled.csv --output results/seac4rs/fig11.pdf
 """
 import argparse

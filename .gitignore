@@ -1,5 +1,5 @@
 # data, checkpoints and results are not tracked
-data/
+/data/
 checkpoints/
 results/
 *.npz
@@ -28,3 +28,10 @@ logs/
 configs/ablation_*
 docs/walkthrough/*
 !docs/walkthrough/walkthrough.pdf
+# supplementary material, kept locally
+figures/demo_video.py
+data_generation/render_noise_analysis.py
+# SEAC4RS preprocessing (raw AirMSPI/DC-8 -> ready inputs), kept locally; the ready inputs are tracked
+real_data/seac4rs/prepare_airmspi.py
+real_data/seac4rs/prepare_dc8.py
+!real_data/seac4rs/data/airmspi.npz
