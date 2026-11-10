@@ -1,6 +1,0 @@
-# Table 2: w/o ConvLSTM (MiT-B1 encoder), envelope.
-base: base.yaml
-name: ablation_no_convlstm
-data: {kfold_dir: envelope, target: envelope}
-model: {use_conv_lstm: false}
-loss: {use_mask: true}

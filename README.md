@@ -35,7 +35,7 @@ python -m venv venv && source venv/bin/activate     # tested with Python 3.8, CU
 pip install torch==2.4.1 torchvision==0.19.1 --index-url https://download.pytorch.org/whl/cu118
 pip install -r requirements.txt
 ```
-The ImageNet weights of the MiT-B1 / ResNet18 encoders are downloaded automatically by
+The ImageNet weights of the MiT-B1 encoder are downloaded automatically by
 `segmentation-models-pytorch` the first time a model is built.
 
 ## Data and checkpoints
@@ -60,9 +60,7 @@ Each `.npz` holds `X` (float32 `[N, 12, 2, 128, 128]`, radiance of satellites A 
 | Paper | Config(s) |
 |---|---|
 | Table 1, Fig. 6 (left), Fig. 7 | `envelope`, `layer_500m`, `layer_1000m`, `layer_1500m` |
-| Table 2 (architecture ablation) | `ablation_no_convlstm`, `ablation_resnet18`, `ablation_resnet18_no_convlstm` |
 | Table 3 (monocular) | `envelope_mono`, `layer_500m_mono`, `layer_1000m_mono`, `layer_1500m_mono` |
-| Fig. 6 right (loss ablation) | `ablation_loss_l1`, `ablation_loss_power` (bin loss = `envelope`) |
 | Sec. 5, Fig. 11 (SEAC4RS) | `layer_900m_mono` |
 
 **Evaluate** released checkpoints (4-model ensemble on the test set):
@@ -78,8 +76,8 @@ bash scripts/eval_all.sh            # all experiments
 python train.py --config configs/envelope.yaml            # -> checkpoints/envelope/fold_0K_*.pt
 bash scripts/train_all.sh                                  # every experiment
 ```
-Long runs: `tmux new -s retrain 'bash scripts/retrain_table1.sh'` trains and evaluates the Table 1
-experiments detached from the terminal; `bash scripts/status.sh` shows the progress. `train.py --skip-existing`
+Long runs: `tmux new -s retrain 'bash scripts/retrain.sh'` trains and evaluates every experiment (and the
+SEAC4RS comparison) detached from the terminal, writing `runs/retrain/retrain_vs_paper.md`; `bash scripts/status.sh` shows the progress. `train.py --skip-existing`
 resumes an interrupted run from the last finished fold.
 Training runs for 100 epochs in two stages. Stage 1 (epochs 1–20) freezes the encoder and uses batch
 size 32 with AdamW at 1e-3. Stage 2 (epochs 21–100) trains all weights with batch size 16 and AdamW at 3e-4. The loss starts as the power loss,
@@ -97,11 +95,18 @@ not bit for bit.
 ## Generating the dataset
 
 The pipeline turns an LES run (512 × 512 × 200 voxels at 20 m, 848 time steps 20 s apart) into the
-training sets:
+training sets.
+
+**Released LES fields** (*download link will be added here*, ~42 GB): one NetCDF4 file per time step,
+`BOMEX_512x512x200_20m_beta_w_<time id>.nc`, holding the two fields the pipeline needs:
+`beta_ext` [1/m], the extinction coefficient computed from the LES microphysics (`calc_beta.py`,
+lossless), and `W` [m/s], the vertical velocity, rounded to 1e-3 m/s. Check the download with
+`sha256sum -c SHA256SUMS`. The raw LES (11 fields, ~2 TB) is not distributed. `export_beta_w.py` is
+the script that made these files from it.
 
 ```bash
-# 1. LES netCDF -> 49 overlapping 128x128x200 volumes per time step (beta_ext, U, V, W)
-python data_generation/les_to_volumes.py --input LES_netcdf/ --output volumes/
+# 1. LES -> 49 overlapping 128x128x200 volumes per time step (beta_ext, W; also U, V from the raw LES)
+python data_generation/les_to_volumes.py --input les_beta_w/ --output volumes/     # or the raw LES folder
 # 2. Monte Carlo volumetric path tracing (Mitsuba 3 volpath, g=0.85, 8192 spp, ocean albedo 0.03), 2 satellites
 python data_generation/render_dataset.py --input volumes/ --output renders/
 # 3. Ground-truth V_z: cloud envelope (first cloudy voxel along each ray) and horizontal layers
@@ -137,11 +142,6 @@ python figures/fig6_scatter.py --output results/fig6_left.pdf --runs \
     "Z = 1000m=configs/layer_1000m.yaml:checkpoints/layer_1000m:tab:red" \
     "Z = 1500m=configs/layer_1500m.yaml:checkpoints/layer_1500m:tab:green" \
     "Envelope=configs/envelope.yaml:checkpoints/envelope:tab:blue"
-# Fig. 6 right: loss ablation
-python figures/fig6_scatter.py --output results/fig6_right.pdf --title "Loss Ablation" --runs \
-    "L1 loss=configs/ablation_loss_l1.yaml:checkpoints/ablation_loss_l1:tab:red" \
-    "Power loss=configs/ablation_loss_power.yaml:checkpoints/ablation_loss_power:tab:green" \
-    "Bin loss=configs/envelope.yaml:checkpoints/envelope:tab:blue"
 # Fig. 7: input / ground truth / inferred for one test sequence and frame
 python figures/fig7_qualitative.py --sequence 100 --frame 5 --output-dir results/fig7 --runs \
     "Envelope=configs/envelope.yaml:checkpoints/envelope" \

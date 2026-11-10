@@ -10,11 +10,6 @@ velocities are visible. Envelope runs use cloudy pixels only, layer runs all pix
         "Z = 1000m=configs/layer_1000m.yaml:checkpoints/layer_1000m:tab:red" \
         "Z = 1500m=configs/layer_1500m.yaml:checkpoints/layer_1500m:tab:green" \
         "Envelope=configs/envelope.yaml:checkpoints/envelope:tab:blue"
-    # Fig. 6 right (loss ablation)
-    python figures/fig6_scatter.py --output results/fig6_right.pdf --title "Loss Ablation" --runs \
-        "L1 loss=configs/ablation_loss_l1.yaml:checkpoints/ablation_loss_l1:tab:red" \
-        "Power loss=configs/ablation_loss_power.yaml:checkpoints/ablation_loss_power:tab:green" \
-        "Bin loss=configs/envelope.yaml:checkpoints/envelope:tab:blue"
 """
 import argparse
 import os

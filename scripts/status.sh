@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
-# One-screen progress of a (re)training run started with scripts/retrain_table1.sh.
+# One-screen progress of a (re)training run started with scripts/retrain.sh.
 #   bash scripts/status.sh [runs/retrain]
 cd "$(dirname "$0")/.."
 OUT=${1:-runs/retrain}
+echo "== queue";   tmux list-windows -t retrain -F "  window #{window_index}: #{window_name}" 2>/dev/null
 echo "== now";      cat "$OUT/STATUS.txt" 2>/dev/null || echo "(no status yet)"
 echo "== running";  if tmux has-session -t retrain 2>/dev/null; then echo "tmux session 'retrain' is alive"; else echo "tmux session 'retrain' NOT running"; fi
 pgrep -af "python -u (train|evaluate).py" | sed 's/^/  /'
@@ -14,3 +15,4 @@ echo "== last epochs";  ls -t "$OUT"/logs/*.log 2>/dev/null | grep -v _eval | he
 echo "== gpu";      nvidia-smi --query-gpu=utilization.gpu,memory.used,temperature.gpu --format=csv,noheader
 echo "== disk";     df -h "$OUT" | tail -1
 [ -f "$OUT/retrain_vs_paper.md" ] && { echo "== vs paper"; grep '^|' "$OUT/retrain_vs_paper.md"; }
+exit 0

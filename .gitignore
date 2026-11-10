@@ -23,3 +23,8 @@ venv/
 .DS_Store
 runs/
 logs/
+
+# not part of the release: ablation configs (kept locally), walkthrough sources/build files
+configs/ablation_*
+docs/walkthrough/*
+!docs/walkthrough/walkthrough.pdf
