@@ -26,6 +26,8 @@ assets/                  satellite overpass geometry (2 satellites, 12 times x 2
 scripts/                 train / evaluate all experiments
 ```
 
+[`docs/walkthrough/walkthrough.pdf`](docs/walkthrough/walkthrough.pdf) walks through the code step by step: data generation, model, loss, training, evaluation and the SEAC4RS experiment.
+
 ## Installation
 
 ```bash
