@@ -1,0 +1,6 @@
+# Table 2: w/o attention (ResNet18 encoder, ConvLSTM at the bottleneck), envelope.
+base: base.yaml
+name: ablation_resnet18
+data: {kfold_dir: envelope, target: envelope}
+model: {backbone: resnet18}
+loss: {use_mask: true}

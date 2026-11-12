@@ -17,7 +17,7 @@ path-tracing LES cloud fields (Mitsuba 3) along a realistic orbit.
 ```
 vertical_airflow/        model, dataset, losses, helpers
 train.py                 K-fold training of one experiment (one YAML config)
-evaluate.py              K-fold ensemble evaluation (Tables 1 and 3, Fig. 6)
+evaluate.py              K-fold ensemble evaluation (Tables 1-3, Fig. 6)
 configs/                 one config per experiment in the paper
 figures/                 Fig. 6 scatter, Fig. 7 qualitative panels
 data_generation/         LES -> volumes -> Mitsuba renders -> ground-truth maps -> K-fold dataset
@@ -33,7 +33,7 @@ python -m venv venv && source venv/bin/activate     # tested with Python 3.8, CU
 pip install torch==2.4.1 torchvision==0.19.1 --index-url https://download.pytorch.org/whl/cu118
 pip install -r requirements.txt
 ```
-The ImageNet weights of the MiT-B1 encoder are downloaded automatically by
+The ImageNet weights of the MiT-B1 / ResNet18 encoders are downloaded automatically by
 `segmentation-models-pytorch` the first time a model is built.
 
 ## Data and checkpoints
@@ -46,8 +46,6 @@ mkdir -p data
 for t in envelope layer_500m layer_900m layer_1000m layer_1500m; do tar -xf $t.tar -C data; done
 tar -xf checkpoints.tar                       # -> checkpoints/<experiment>/
 ```
-`checkpoints.tar` also holds the Table 2 ablation checkpoints. Their configs are not in this repository.
-
 The code expects one folder per target under `data/`:
 
 ```
@@ -68,7 +66,9 @@ Each `.npz` holds `X` (float32 `[N, 12, 2, 128, 128]`, radiance of satellites A 
 | Paper | Config(s) |
 |---|---|
 | Table 1, Fig. 6 (left), Fig. 7 | `envelope`, `layer_500m`, `layer_1000m`, `layer_1500m` |
+| Table 2 (architecture ablation) | `ablation_no_convlstm`, `ablation_resnet18`, `ablation_resnet18_no_convlstm` |
 | Table 3 (monocular) | `envelope_mono`, `layer_500m_mono`, `layer_1000m_mono`, `layer_1500m_mono` |
+| Fig. 6 right (loss ablation) | `ablation_loss_l1`, `ablation_loss_power` (bin loss = `envelope`) |
 | Sec. 5, Fig. 11 (SEAC4RS) | `layer_900m_mono` |
 
 **Evaluate** released checkpoints (4-model ensemble on the test set):
@@ -140,6 +140,11 @@ python figures/fig6_scatter.py --output results/fig6_left.pdf --runs \
     "Z = 1000m=configs/layer_1000m.yaml:checkpoints/layer_1000m:tab:red" \
     "Z = 1500m=configs/layer_1500m.yaml:checkpoints/layer_1500m:tab:green" \
     "Envelope=configs/envelope.yaml:checkpoints/envelope:tab:blue"
+# Fig. 6 right: loss ablation
+python figures/fig6_scatter.py --output results/fig6_right.pdf --title "Loss Ablation" --runs \
+    "L1 loss=configs/ablation_loss_l1.yaml:checkpoints/ablation_loss_l1:tab:red" \
+    "Power loss=configs/ablation_loss_power.yaml:checkpoints/ablation_loss_power:tab:green" \
+    "Bin loss=configs/envelope.yaml:checkpoints/envelope:tab:blue"
 # Fig. 7: input / ground truth / inferred for one test sequence and frame
 python figures/fig7_qualitative.py --sequence 100 --frame 5 --output-dir results/fig7 --runs \
     "Envelope=configs/envelope.yaml:checkpoints/envelope" \

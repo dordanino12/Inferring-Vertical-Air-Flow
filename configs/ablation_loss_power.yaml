@@ -1,0 +1,5 @@
+# Fig. 6 (right): loss ablation with the power loss throughout training, envelope.
+base: base.yaml
+name: ablation_loss_power
+data: {kfold_dir: envelope, target: envelope}
+loss: {use_mask: true, schedule: power}

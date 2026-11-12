@@ -24,8 +24,7 @@ venv/
 runs/
 logs/
 
-# not part of the release: ablation configs (kept locally), walkthrough sources/build files
-configs/ablation_*
+# not part of the release: walkthrough sources/build files
 docs/walkthrough/*
 !docs/walkthrough/walkthrough.pdf
 # supplementary material, kept locally
