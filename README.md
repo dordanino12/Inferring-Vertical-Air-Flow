@@ -154,6 +154,17 @@ BibTeX will be added once the proceedings are published.
 
 ## Acknowledgements
 
-LES BOMEX data: Orit Altaratz and Ilan Koren. Rendering: [Mitsuba 3](https://mitsuba-renderer.org).
-Model backbones: [segmentation-models-pytorch](https://github.com/qubvel/segmentation_models.pytorch).
-See the paper for full acknowledgements. Code released under the MIT License.
+We are grateful to Orit Altaratz and Ilan Koren for their assistance and outstanding effort to provide
+the LES BOMEX data. We thank J. Erez, I. Talmon, and D. Yagodin for technical support.
+This research was supported by the Ministry of Innovation, Science and Technology, Israel
+(Grant No. 1001942418). This research was also made possible through a GPU compute resource grant funded
+by the Association of University Heads, the Council for Higher Education and the AI Research Compute Center.
+Y.Y.S. is the Mark and Diane Seiden Chair in Science at the Technion. He is a Landau Fellow, supported by
+the Taub Foundation. His work is conducted in the Ollendorff Minerva Center. Minerva is funded through
+the BMBF. Céline Cornet acknowledges financial support from the Centre National d'Etudes Spatiales (CNES),
+France within the framework of the C3IEL mission.
+Code development was assisted by large language models (Gemini and ChatGPT).
+
+Rendering: [Mitsuba 3](https://mitsuba-renderer.org). Model backbones:
+[segmentation-models-pytorch](https://github.com/qubvel/segmentation_models.pytorch).
+Code released under the MIT License.
