@@ -2,7 +2,7 @@
 
 Dor Danino, Udi Gal, Vadim Holodovsky, Daniel Rosenfeld, Barry Lynn, Céline Cornet, Yoav Y. Schechner
 
-Paper (link TBA) · Project page: `index.html` · Data & checkpoints (link TBA)
+Paper (link TBA) · Project page: `index.html` · Data & checkpoints: [Zenodo](https://doi.org/10.5281/zenodo.24102992) · LES fields: [Zenodo](https://doi.org/10.5281/zenodo.24106971)
 
 We infer the vertical air velocity $V_z$, both at the visible cloud envelope and on
 horizontal layers inside and around clouds, from sequences of stereo images taken by two
