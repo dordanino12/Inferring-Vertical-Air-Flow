@@ -8,8 +8,7 @@ We infer the vertical air velocity $V_z$, both at the visible cloud envelope and
 horizontal layers inside and around clouds, from sequences of stereo images taken by two
 orbiting satellites. A spatiotemporal U-Net (MiT-B1 encoder, ConvLSTM in the bottleneck
 and in the skip connections) is trained on physics-based data. That data is made by
-path-tracing LES cloud fields (Mitsuba 3) along a realistic orbit. We then apply the
-model to real AirMSPI imagery from the SEAC4RS campaign.
+path-tracing LES cloud fields (Mitsuba 3) along a realistic orbit.
 
 ![pipeline](images/fig2_pipeline.png)
 
@@ -75,21 +74,6 @@ bash scripts/eval_all.sh            # all experiments
 python train.py --config configs/envelope.yaml            # -> checkpoints/envelope/fold_0K_*.pt
 bash scripts/train_all.sh                                  # every experiment
 ```
-Long runs: `tmux new -s retrain 'bash scripts/retrain.sh'` trains and evaluates every experiment (and the
-SEAC4RS comparison) detached from the terminal, writing `runs/retrain/retrain_vs_paper.md`; `bash scripts/status.sh` shows the progress. `train.py --skip-existing`
-resumes an interrupted run from the last finished fold.
-Training runs for 100 epochs in two stages. Stage 1 (epochs 1–20) freezes the encoder and uses batch
-size 32 with AdamW at 1e-3. Stage 2 (epochs 21–100) trains all weights with batch size 16 and AdamW at 3e-4. The loss starts as the power loss,
-then blends linearly into the inverse-frequency bin loss (Eq. 6) between epochs 11 and 15, and is the
-bin loss from epoch 16 on. The kept checkpoint has the lowest validation bin loss.
-
-The loss mask M depends on the target:
-- **Envelope:** only cloudy pixels count, and the velocity bins are computed on cloudy pixels too.
-- **Horizontal layers:** the cloud mask of the middle frame is dilated by 5×5 pixels and applied to
-  all frames. Cloudy pixels get weight 1 and the rest 0.9.
-
-The training runs were not seeded, so retrained models match the released checkpoints statistically,
-not bit for bit.
 
 ## Generating the dataset
 
