@@ -93,11 +93,7 @@ training sets.
 **Released LES fields** ([doi:10.5281/zenodo.24106971](https://doi.org/10.5281/zenodo.24106971), CC-BY 4.0, ~42 GB): one NetCDF4 file per time step,
 `BOMEX_512x512x200_20m_beta_w_<time id>.nc`, holding the two fields the pipeline needs:
 `beta_ext` [1/m], the extinction coefficient computed from the LES microphysics (`calc_beta.py`,
-lossless), and `W` [m/s], the vertical velocity, rounded to 1e-3 m/s. They come as 8 tars;
-`sha256sum -c SHA256SUMS` checks the tars, and after
-`for f in les_beta_w_part*.tar; do tar -xf $f; done` (-> `les_beta_w/`),
-`cd les_beta_w && sha256sum -c ../SHA256SUMS_nc.txt` checks the 848 `.nc` files. The raw LES (11 fields, ~2 TB) is not distributed. `export_beta_w.py` is
-the script that made these files from it.
+lossless), and `W` [m/s], the vertical velocity.
 
 ```bash
 # 1. LES -> 49 overlapping 128x128x200 volumes per time step (beta_ext, W; also U, V from the raw LES)
