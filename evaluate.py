@@ -1,5 +1,5 @@
 """
-Evaluate the K-fold ensemble on the test set (Tables 1-3, Fig. 6).
+Evaluate the K-fold ensemble on the test set (Tables 1 and 3, Fig. 6).
 
     python evaluate.py --config configs/layer_1000m.yaml --checkpoints checkpoints/layer_1000m
     python evaluate.py --config configs/envelope.yaml   --checkpoints checkpoints/envelope --scatter

@@ -18,7 +18,7 @@ model to real AirMSPI imagery from the SEAC4RS campaign.
 ```
 vertical_airflow/        model, dataset, losses, helpers
 train.py                 K-fold training of one experiment (one YAML config)
-evaluate.py              K-fold ensemble evaluation (Tables 1-3, Fig. 6)
+evaluate.py              K-fold ensemble evaluation (Tables 1 and 3, Fig. 6)
 configs/                 one config per experiment in the paper
 figures/                 Fig. 6 scatter, Fig. 7 qualitative panels
 data_generation/         LES -> volumes -> Mitsuba renders -> ground-truth maps -> K-fold dataset

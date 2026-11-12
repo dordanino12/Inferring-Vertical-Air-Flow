@@ -1,5 +1,5 @@
 # data, checkpoints and results are not tracked
-/data/
+/data
 checkpoints/
 results/
 *.npz
