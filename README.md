@@ -38,7 +38,17 @@ The ImageNet weights of the MiT-B1 encoder are downloaded automatically by
 
 ## Data and checkpoints
 
-*Download links will be added here.* The code expects one folder per target under `data/`:
+Training data and model checkpoints: [doi:10.5281/zenodo.24102992](https://doi.org/10.5281/zenodo.24102992)
+(CC-BY 4.0, ~36 GB). One tar per target plus `checkpoints.tar`. Unpack them in the repository root:
+```bash
+sha256sum -c SHA256SUMS                       # verify the download
+mkdir -p data
+for t in envelope layer_500m layer_900m layer_1000m layer_1500m; do tar -xf $t.tar -C data; done
+tar -xf checkpoints.tar                       # -> checkpoints/<experiment>/
+```
+`checkpoints.tar` also holds the Table 2 ablation checkpoints. Their configs are not in this repository.
+
+The code expects one folder per target under `data/`:
 
 ```
 data/
@@ -80,11 +90,13 @@ bash scripts/train_all.sh                                  # every experiment
 The pipeline turns an LES run (512 × 512 × 200 voxels at 20 m, 848 time steps 20 s apart) into the
 training sets.
 
-**Released LES fields** (*download link will be added here*, ~42 GB): one NetCDF4 file per time step,
+**Released LES fields** ([doi:10.5281/zenodo.24106971](https://doi.org/10.5281/zenodo.24106971), CC-BY 4.0, ~42 GB): one NetCDF4 file per time step,
 `BOMEX_512x512x200_20m_beta_w_<time id>.nc`, holding the two fields the pipeline needs:
 `beta_ext` [1/m], the extinction coefficient computed from the LES microphysics (`calc_beta.py`,
-lossless), and `W` [m/s], the vertical velocity, rounded to 1e-3 m/s. Check the download with
-`sha256sum -c SHA256SUMS`. The raw LES (11 fields, ~2 TB) is not distributed. `export_beta_w.py` is
+lossless), and `W` [m/s], the vertical velocity, rounded to 1e-3 m/s. They come as 8 tars;
+`sha256sum -c SHA256SUMS` checks the tars, and after
+`for f in les_beta_w_part*.tar; do tar -xf $f; done` (-> `les_beta_w/`),
+`cd les_beta_w && sha256sum -c ../SHA256SUMS_nc.txt` checks the 848 `.nc` files. The raw LES (11 fields, ~2 TB) is not distributed. `export_beta_w.py` is
 the script that made these files from it.
 
 ```bash
